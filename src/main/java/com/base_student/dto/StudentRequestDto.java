@@ -23,5 +23,4 @@ public record StudentRequestDto(
     public String toString() {
         return new ObjectMapper().writeValueAsString(this);
     }
-
 }

@@ -16,14 +16,14 @@ REST microservice for managing student records with Spring Boot and MongoDB.
 - JDK 21 or newer
 - MongoDB running locally, or a MongoDB connection URI
 
-The default connection is `mongodb://localhost:27017/student`. To use another
+The default connection is `mongodb://localhost:27017/student_db`. To use another
 MongoDB instance, set `MONGODB_URI` before starting the application. Do not
 commit credentials.
 
 Windows PowerShell example:
 
 ```powershell
-$env:MONGODB_URI = "mongodb://localhost:27017/student"
+$env:MONGODB_URI = "mongodb://localhost:27017/student_db"
 ```
 
 ## Run
@@ -40,19 +40,19 @@ Start the application:
 .\mvnw.cmd spring-boot:run
 ```
 
-The API listens on port `8080`; its base path is `/student`.
+The API listens on port `8080`; its base path is `/api/students`.
 
 ## API Endpoints
 
 | Method | Path | Description |
 | --- | --- | --- |
-| `POST` | `/student` | Create a student |
-| `GET` | `/student` | List students |
-| `GET` | `/student/find-by-id?id={id}` | Find a student by its MongoDB ID |
-| `DELETE` | `/student?id={id}` | Delete a student by its MongoDB ID |
+| `POST` | `/api/students` | Create a student |
+| `GET` | `/api/students` | List students |
+| `GET` | `/api/students/find-by-id?id={id}` | Find a student by its MongoDB ID |
+| `DELETE` | `/api/students?id={id}` | Delete a student by its MongoDB ID |
 
 Student IDs are strings. When omitted on creation, MongoDB generates an ID.
-Student data is stored in the `student` collection.
+Student data is stored in the `students` collection.
 
 ## Error Responses
 

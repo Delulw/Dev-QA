@@ -9,11 +9,11 @@
 		<version>4.1.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.base_student</groupId>
-	<artifactId>base_student</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>base_student</name>
-	<description />
+	<groupId>com.student.microservice</groupId>
+	<artifactId>student-service</artifactId>
+	<version>1.0.0</version>
+	<name>student-service</name>
+	<description>Microservicio para gestion de estudiantes con NoSQL</description>
 	<url />
 	<licenses>
 		<license />

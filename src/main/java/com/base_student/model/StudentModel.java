@@ -1,12 +1,11 @@
 package com.base_student.model;
 
 import com.base_student.dto.StudentResponseDto;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import tools.jackson.databind.ObjectMapper;
 
-@Document(collection = "student")
+@Document(collection = "students")
 public class StudentModel {
 
     @Id
@@ -31,20 +30,40 @@ public class StudentModel {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLastName() {
         return lastName;
     }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getPhone() {
         return phone;
     }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String geteMail() {
         return eMail;
+    }
+
+    public void seteMail(String eMail) {
+        this.eMail = eMail;
     }
 
     public StudentResponseDto toDto() {
