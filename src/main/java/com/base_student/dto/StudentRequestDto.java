@@ -4,7 +4,7 @@ import com.base_student.model.StudentModel;
 import tools.jackson.databind.ObjectMapper;
 
 public record StudentRequestDto(
-        Integer id,
+        String id,
         String name,
         String lastName,
         String phone,
