@@ -43,8 +43,8 @@ public class StudentServiceTest {
     @Test
     @DisplayName("Should return dto when id exists")
     void testFindById() throws BusinessException {
-        Integer id = 1;
-        StudentModel studentModel = new StudentModel(1, "John", "Doe", "+52-111-12-34-56", "john.doe@mail.com");
+        String id = "1";
+        StudentModel studentModel = new StudentModel("1", "John", "Doe", "+52-111-12-34-56", "john.doe@mail.com");
         when(studentRepository.findById(id)).thenReturn(Optional.of(studentModel));
         StudentResponseDto studentResponseDto = studentService.findById(id);
         assertEquals(studentModel.getId(), studentResponseDto.id());

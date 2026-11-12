@@ -27,7 +27,7 @@ public class StudentService {
         return studentRepository.findAll().stream().map(StudentModel::toDto).toList();
     }
 
-    public StudentResponseDto findById(Integer id) throws BusinessException {
+    public StudentResponseDto findById(String id) throws BusinessException {
         return studentRepository.findById(id).orElseThrow(() -> {
             ErrorMessageDto errorMessageDto = new ErrorMessageDto(RECORD_NOT_FOUND, HttpStatus.NOT_FOUND,
                     DatetimeUtil.getTimestamptInMilliseconds());
@@ -39,7 +39,7 @@ public class StudentService {
         return studentRepository.save(dto.toModel()).toDto();
     }
 
-    public void deleteById(Integer id) {
+    public void deleteById(String id) {
         studentRepository.deleteById(id);
     }
 

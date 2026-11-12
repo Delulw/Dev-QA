@@ -4,7 +4,7 @@ import com.base_student.model.StudentModel;
 import tools.jackson.databind.ObjectMapper;
 
 public record StudentRequestDto(
-        Integer id,
+        String id,
         String name,
         String lastName,
         String phone,
@@ -23,5 +23,4 @@ public record StudentRequestDto(
     public String toString() {
         return new ObjectMapper().writeValueAsString(this);
     }
-
 }

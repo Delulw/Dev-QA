@@ -41,13 +41,13 @@ public class StudentController {
     }
 
     @GetMapping(value = "/find-by-id")
-    public ResponseEntity<?> findById(@RequestParam(value = "id", required = false) Integer id)
+    public ResponseEntity<?> findById(@RequestParam(value = "id", required = false) String id)
             throws BusinessException {
         return new ResponseEntity<>(studentService.findById(id), HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteById(@RequestParam(value = "id", required = false) Integer id) {
+    public ResponseEntity<?> deleteById(@RequestParam(value = "id", required = false) String id) {
         studentService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
