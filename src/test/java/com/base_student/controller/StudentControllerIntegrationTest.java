@@ -81,6 +81,20 @@ class StudentControllerIntegrationTest {
     }
 
     @Test
+    void createStudentWithMalformedJsonReturnsBadRequest() throws Exception {
+        mockMvc.perform(post("/api/students")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message")
+                        .value("El cuerpo de la solicitud está vacío o contiene JSON inválido"))
+                .andExpect(jsonPath("$.httpStatus").value("400 BAD_REQUEST"))
+                .andExpect(jsonPath("$.timestamp").isNumber());
+
+        verifyNoInteractions(studentService);
+    }
+
+    @Test
     void findAllReturnsSerializedStudents() throws Exception {
         when(studentService.findAll()).thenReturn(List.of(
                 new StudentResponseDto("student-1", "Ana", "Lopez", "5551234", "ana@example.com")));
@@ -104,6 +118,17 @@ class StudentControllerIntegrationTest {
                 .andExpect(jsonPath("$.eMail").value("ana@example.com"));
 
         verify(studentService).findById("student-1");
+    }
+
+    @Test
+    void findByIdWithoutIdReturnsBadRequest() throws Exception {
+        mockMvc.perform(get("/api/students/find-by-id"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Falta el parámetro requerido 'id'"))
+                .andExpect(jsonPath("$.httpStatus").value("400 BAD_REQUEST"))
+                .andExpect(jsonPath("$.timestamp").isNumber());
+
+        verifyNoInteractions(studentService);
     }
 
     @Test
