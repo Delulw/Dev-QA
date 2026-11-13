@@ -18,6 +18,11 @@ public class ValidationUtil {
 
     public void validate(StudentRequestDto studentDto) throws BusinessException {
 
+        if (studentDto == null) {
+            throw new BusinessException(new ErrorMessageDto("El cuerpo de la solicitud es obligatorio",
+                    HttpStatus.BAD_REQUEST, DatetimeUtil.getTimestamptInMilliseconds()));
+        }
+
         if (Strings.isBlank(studentDto.eMail())
                 || !Pattern.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
                         studentDto.eMail())) {

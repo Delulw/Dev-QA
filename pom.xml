@@ -9,11 +9,11 @@
 		<version>4.1.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.base_student</groupId>
-	<artifactId>base_student</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>base_student</name>
-	<description />
+	<groupId>com.student.microservice</groupId>
+	<artifactId>student-service</artifactId>
+	<version>1.0.0</version>
+	<name>student-service</name>
+	<description>Microservicio para gestion de estudiantes con NoSQL</description>
 	<url />
 	<licenses>
 		<license />
@@ -29,11 +29,12 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<sonar.coverage.exclusions>**/*Application.java,**/config/**,**/constants/**,**/dto/**,**/model/**,**/util/**</sonar.coverage.exclusions>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -45,13 +46,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
+			<artifactId>spring-boot-starter-data-mongodb-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -127,7 +123,7 @@
 										<limit>
 											<counter>LINE</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0.10</minimum>
+											<minimum>0.80</minimum>
 										</limit>
 									</limits>
 								</rule>
@@ -152,9 +148,6 @@
 							**/*model/*,
 							**/*util/*
 						</value>
-
-						<property>sonar.coverage.exclusions</property>
-						<value>**/config/**</value>
 					</properties>
 				</configuration>
 			</plugin>

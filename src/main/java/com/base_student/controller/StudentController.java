@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.base_student.util.ValidationUtil;
 import com.base_student.dto.StudentRequestDto;
 import com.base_student.dto.StudentResponseDto;
-import com.base_student.exception.BusinessException;
 import com.base_student.service.StudentService;
 
 @Controller
@@ -29,9 +29,17 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody StudentRequestDto studentDto) throws BusinessException {
+    public ResponseEntity<?> save(@RequestBody StudentRequestDto studentDto) {
         validationUtil.validate(studentDto);
         StudentResponseDto rsDto = studentService.create(studentDto);
+        return new ResponseEntity<>(rsDto, HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> update(@RequestParam(value = "id") String id,
+            @RequestBody StudentRequestDto studentDto) {
+        validationUtil.validate(studentDto);
+        StudentResponseDto rsDto = studentService.updateById(id, studentDto);
         return new ResponseEntity<>(rsDto, HttpStatus.OK);
     }
 
@@ -41,13 +49,12 @@ public class StudentController {
     }
 
     @GetMapping(value = "/find-by-id")
-    public ResponseEntity<?> findById(@RequestParam(value = "id", required = false) Integer id)
-            throws BusinessException {
+    public ResponseEntity<?> findById(@RequestParam(value = "id") String id) {
         return new ResponseEntity<>(studentService.findById(id), HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteById(@RequestParam(value = "id", required = false) Integer id) {
+    public ResponseEntity<?> deleteById(@RequestParam(value = "id") String id) {
         studentService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
