@@ -1,6 +1,7 @@
 package com.base_student.controller;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -8,6 +9,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -141,6 +143,50 @@ class StudentControllerIntegrationTest {
                 .andExpect(jsonPath("$.message").value("Estudiante no encontrado con el ID: missing"))
                 .andExpect(jsonPath("$.httpStatus").value("404 NOT_FOUND"))
                 .andExpect(jsonPath("$.timestamp").isNumber());
+    }
+
+    @Test
+    void updateStudentReturnsSerializedStudent() throws Exception {
+        StudentResponseDto student = new StudentResponseDto(
+                "student-1", "Ana", "Lopez", "5551234", "ana@example.com");
+        when(studentService.updateById(eq("student-1"), any(StudentRequestDto.class))).thenReturn(student);
+
+        mockMvc.perform(put("/api/students")
+                .param("id", "student-1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                          "name": "Ana",
+                          "lastName": "Lopez",
+                          "phone": "5551234",
+                          "eMail": "ana@example.com"
+                        }
+                        """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("student-1"))
+                .andExpect(jsonPath("$.name").value("Ana"))
+                .andExpect(jsonPath("$.eMail").value("ana@example.com"));
+
+        verify(studentService).updateById(eq("student-1"), any(StudentRequestDto.class));
+    }
+
+    @Test
+    void updateMissingStudentReturnsNotFoundJson() throws Exception {
+        when(studentService.updateById(eq("missing"), any(StudentRequestDto.class)))
+                .thenThrow(new ResourceNotFoundException("Estudiante no encontrado con el ID: missing"));
+
+        mockMvc.perform(put("/api/students")
+                .param("id", "missing")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                          "name": "Ana",
+                          "eMail": "ana@example.com"
+                        }
+                        """))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Estudiante no encontrado con el ID: missing"))
+                .andExpect(jsonPath("$.httpStatus").value("404 NOT_FOUND"));
     }
 
     @Test

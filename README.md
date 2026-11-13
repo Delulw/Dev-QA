@@ -47,6 +47,7 @@ The API listens on port `8080`; its base path is `/api/students`.
 | Method | Path | Description |
 | --- | --- | --- |
 | `POST` | `/api/students` | Create a student |
+| `PUT` | `/api/students?id={id}` | Update a student by its MongoDB ID |
 | `GET` | `/api/students` | List students |
 | `GET` | `/api/students/find-by-id?id={id}` | Find a student by its MongoDB ID |
 | `DELETE` | `/api/students?id={id}` | Delete a student by its MongoDB ID |
