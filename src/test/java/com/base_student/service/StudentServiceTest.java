@@ -51,6 +51,37 @@ public class StudentServiceTest {
     }
 
     @Test
+    @DisplayName("Should update and return student when id exists")
+    void testUpdateById() {
+        String id = "student-1";
+        StudentModel existing = new StudentModel(
+                id, "John", "Doe", "5551111", "john@example.com");
+        StudentRequestDto request = new StudentRequestDto(
+                "different-id", "Jane", "Smith", "5552222", "jane@example.com");
+        when(studentRepository.findById(id)).thenReturn(Optional.of(existing));
+        when(studentRepository.save(any(StudentModel.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+
+        StudentResponseDto result = studentService.updateById(id, request);
+
+        assertEquals(new StudentResponseDto(id, "Jane", "Smith", "5552222", "jane@example.com"), result);
+        verify(studentRepository).findById(id);
+        verify(studentRepository).save(existing);
+    }
+
+    @Test
+    @DisplayName("Should not save when updating a missing student")
+    void testUpdateByIdNotFound() {
+        String id = "missing-student";
+        StudentRequestDto request = new StudentRequestDto(
+                id, "Jane", "Smith", "5552222", "jane@example.com");
+        when(studentRepository.findById(id)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> studentService.updateById(id, request));
+        verify(studentRepository, never()).save(any(StudentModel.class));
+    }
+
+    @Test
     void testDeleteById() {
         String id = "student-1";
         when(studentRepository.existsById(id)).thenReturn(true);

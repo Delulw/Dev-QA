@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +32,14 @@ public class StudentController {
     public ResponseEntity<?> save(@RequestBody StudentRequestDto studentDto) {
         validationUtil.validate(studentDto);
         StudentResponseDto rsDto = studentService.create(studentDto);
+        return new ResponseEntity<>(rsDto, HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> update(@RequestParam(value = "id") String id,
+            @RequestBody StudentRequestDto studentDto) {
+        validationUtil.validate(studentDto);
+        StudentResponseDto rsDto = studentService.updateById(id, studentDto);
         return new ResponseEntity<>(rsDto, HttpStatus.OK);
     }
 

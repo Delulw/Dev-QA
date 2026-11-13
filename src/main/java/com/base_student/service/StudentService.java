@@ -32,6 +32,16 @@ public class StudentService {
         return studentRepository.save(dto.toModel()).toDto();
     }
 
+    public StudentResponseDto updateById(String id, StudentRequestDto dto) {
+        StudentModel student = studentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Estudiante no encontrado con el ID: " + id));
+        student.setName(dto.name());
+        student.setLastName(dto.lastName());
+        student.setPhone(dto.phone());
+        student.seteMail(dto.eMail());
+        return studentRepository.save(student).toDto();
+    }
+
     public void deleteById(String id) {
         if (!studentRepository.existsById(id)) {
             throw new ResourceNotFoundException("Estudiante no encontrado con el ID: " + id);

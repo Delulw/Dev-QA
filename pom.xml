@@ -29,6 +29,7 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<sonar.coverage.exclusions>**/*Application.java,**/config/**,**/constants/**,**/dto/**,**/model/**,**/util/**</sonar.coverage.exclusions>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -147,9 +148,6 @@
 							**/*model/*,
 							**/*util/*
 						</value>
-
-						<property>sonar.coverage.exclusions</property>
-						<value>**/config/**</value>
 					</properties>
 				</configuration>
 			</plugin>
